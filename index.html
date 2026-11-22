@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="my">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164c40">
+  <meta name="referrer" content="no-referrer">
+  <title>Shared Products</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header><strong>Shared Products</strong><button id="language" type="button">English</button></header>
+  <main>
+    <p id="message" role="status" aria-live="polite"></p>
+    <section id="setup" hidden>
+      <h1 data-copy="connect"></h1>
+      <form id="connect">
+        <label>Supabase Project URL<input name="url" type="url" required placeholder="https://example.supabase.co"></label>
+        <label>Supabase Publishable Key<input name="key" required pattern="sb_publishable_[A-Za-z0-9_-]+" autocomplete="off" spellcheck="false"></label>
+        <button data-copy="connect"></button>
+      </form>
+    </section>
+    <section id="login" hidden>
+      <h1 data-copy="login"></h1>
+      <form id="sign-in">
+        <label>Email<input name="email" type="email" autocomplete="username" required></label>
+        <label><span data-copy="password"></span><input name="password" type="password" autocomplete="current-password" required></label>
+        <button data-copy="login"></button>
+      </form>
+      <button id="disconnect" type="button" class="quiet" data-copy="disconnect"></button>
+    </section>
+    <div id="workspace" hidden>
+      <div class="toolbar">
+        <span id="identity"></span>
+        <span id="connection" role="status"></span>
+        <button id="sign-out" type="button" class="quiet" data-copy="logout"></button>
+      </div>
+      <section>
+        <h1 data-copy="shops"></h1>
+        <label id="shop-selection" hidden><span data-copy="shop"></span><select id="shops"></select></label>
+        <details id="shop-details"><summary data-copy="createShop"></summary>
+          <form id="create-shop">
+            <label><span data-copy="shop"></span><input name="shop" maxlength="120" required></label>
+            <label><span data-copy="firstBranch"></span><input name="branch" maxlength="120" required></label>
+            <button data-copy="createShop"></button>
+          </form>
+        </details>
+      </section>
+      <div id="shop-content" hidden>
+        <section>
+          <h2 data-copy="branches"></h2>
+          <ul id="branches"></ul>
+          <form id="create-branch">
+            <label><span data-copy="branch"></span><input name="branch" maxlength="120" required></label>
+            <button data-copy="addBranch"></button>
+          </form>
+        </section>
+        <section>
+          <h2 data-copy="products"></h2>
+          <form id="create-product">
+            <label><span data-copy="name"></span><input name="name" maxlength="120" required></label>
+            <label><span data-copy="code"></span><input name="code" maxlength="64" required></label>
+            <label><span data-copy="price"></span><input name="price" inputmode="numeric" pattern="[0-9]{1,12}" required></label>
+            <button data-copy="addProduct"></button>
+          </form>
+          <ul id="products"></ul>
+          <p id="empty-products" data-copy="noProducts" hidden></p>
+          <form id="edit-price" hidden>
+            <h3 id="editing"></h3>
+            <label><span data-copy="price"></span><input name="price" inputmode="numeric" pattern="[0-9]{1,12}" required></label>
+            <div class="toolbar"><button data-copy="save"></button><button id="cancel-edit" type="button" class="quiet" data-copy="cancel"></button></div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
