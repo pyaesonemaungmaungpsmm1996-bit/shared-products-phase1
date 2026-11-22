@@ -72,11 +72,13 @@ function listItem(value) {
 
 function render() {
   if (!snapshot) {
+    window.stockWorkspace?.render();
     get('shop-selection').hidden = true;
     get('shop-content').hidden = true;
     return;
   }
   const { shops, branches, products, writable } = snapshot;
+  window.stockWorkspace?.render();
   const selection = get('shops');
   selection.replaceChildren(...shops.map(shop => new Option(shop.name, shop.id)));
   selection.value = shopId;
@@ -150,6 +152,7 @@ async function refresh() {
         shopId = selected;
         snapshot = {
           shops, branches, products,
+          role: memberships.find(member => member.shop_id === selected)?.role,
           writable: memberships.some(member => member.shop_id === selected && ['owner', 'manager'].includes(member.role))
         };
         if (notice?.key === 'readError') tell();
@@ -194,11 +197,17 @@ function applySession(session) {
       subscription.on('postgres_changes', { event, schema: 'public', table }, () => void refresh());
     }
   }
+  for (const table of ['stock_balances', 'stock_documents', 'stock_movements', 'stock_payments']) {
+    for (const event of ['INSERT', 'UPDATE']) {
+      subscription.on('postgres_changes', { event, schema: 'public', table }, () => window.stockWorkspace?.refresh());
+    }
+  }
   channel = subscription;
   subscription.subscribe(status => {
     if (channel !== subscription || !user) return;
     setConnection(status === 'SUBSCRIBED' ? 'live' : 'fallback');
     void refresh();
+    window.stockWorkspace?.refresh();
   });
   void refresh();
 }
@@ -317,9 +326,9 @@ get('sign-out').onclick = async () => {
   catch (error) { tell('writeError', true, error.message); }
 };
 get('disconnect').onclick = () => { localStorage.removeItem('shop-sync-project'); location.reload(); };
-document.addEventListener('visibilitychange', () => { if (!document.hidden) void refresh(); });
-window.addEventListener('online', () => void refresh());
-setInterval(() => { if (!document.hidden) void refresh(); }, 15000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { void refresh(); window.stockWorkspace?.refresh(); } });
+window.addEventListener('online', () => { void refresh(); window.stockWorkspace?.refresh(); });
+setInterval(() => { if (!document.hidden) { void refresh(); window.stockWorkspace?.refresh(); } }, 15000);
 
 translate();
 get('setup').hidden = false;

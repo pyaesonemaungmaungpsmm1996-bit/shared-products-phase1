@@ -22,3 +22,13 @@ li span { overflow-wrap: anywhere; }
 #message { overflow-wrap: anywhere; }
 #message[data-error="true"] { color: #a32120; }
 #connection { font-size: .9rem; }
+
+.stock-line { display: grid; grid-template-columns: minmax(8rem, 2fr) minmax(5rem, 1fr) minmax(6rem, 1fr) auto; gap: .5rem; align-items: end; margin-bottom: .65rem; }
+#stock-form { max-width: 100%; }
+#stock-initial-payment { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; max-width: 34rem; }
+#stock-documents li { align-items: start; }
+#stock-panel details { margin-bottom: 1rem; }
+@media (max-width: 36rem) {
+  .stock-line { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-bottom: .6rem; border-bottom: 1px solid #d7e1da; }
+  .stock-line label:first-child { grid-column: 1 / -1; }
+}

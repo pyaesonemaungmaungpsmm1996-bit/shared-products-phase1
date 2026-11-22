@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3"></script>
   <script defer src="app.js"></script>
+  <script defer src="stock.js"></script>
 </head>
 <body>
   <header><strong>Shared Products</strong><button id="language" type="button">English</button></header>
@@ -74,6 +75,48 @@
           </form>
         </section>
       </div>
+      <section id="stock-panel" hidden>
+        <h2 data-stock="title"></h2>
+        <label><span data-copy="branch"></span><select id="stock-branch"></select></label>
+        <p id="stock-status" role="status"></p>
+        <p id="stock-operation" role="status"></p>
+        <button id="stock-retry" type="button" data-stock="retry" hidden></button>
+        <h3 data-stock="balance"></h3>
+        <ul id="stock-balances"></ul>
+        <details id="stock-create">
+          <summary data-stock="newDocument"></summary>
+          <form id="stock-form">
+            <label><span data-stock="kind"></span><select name="kind"></select></label>
+            <label><span data-stock="party"></span><input name="party" maxlength="120"></label>
+            <div id="stock-lines"></div>
+            <button id="add-stock-line" type="button" class="quiet" data-stock="addLine"></button>
+            <p id="stock-total"></p>
+            <div id="stock-initial-payment">
+              <label><span data-stock="initial"></span><input name="amount" inputmode="numeric" pattern="[0-9]{1,13}" value="0"></label>
+              <label><span data-stock="method"></span><select name="method" class="tender"></select></label>
+            </div>
+            <div class="toolbar">
+              <button type="submit" value="draft" data-stock="saveDraft"></button>
+              <button type="submit" value="post" data-stock="post"></button>
+              <button id="stock-reset" type="button" class="quiet" data-stock="reset"></button>
+            </div>
+          </form>
+        </details>
+        <h3 data-stock="documents"></h3>
+        <ul id="stock-documents"></ul>
+        <form id="stock-pay" hidden>
+          <p id="stock-pay-details"></p>
+          <label><span data-stock="payment"></span><input name="amount" inputmode="numeric" pattern="[0-9]{1,13}" required></label>
+          <label><span data-stock="method"></span><select name="method" class="tender"></select></label>
+          <div class="toolbar">
+            <button data-stock="recordPayment"></button>
+            <button id="stock-pay-cancel" type="button" class="quiet" data-copy="cancel"></button>
+          </div>
+        </form>
+        <details><summary data-stock="movements"></summary><ul id="stock-movements"></ul></details>
+        <details><summary data-stock="payments"></summary><ul id="stock-payments"></ul></details>
+      </section>
+
     </div>
   </main>
 </body>
